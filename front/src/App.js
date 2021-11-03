@@ -7,8 +7,7 @@ import MemoTemplate from './components/MemoTemplate';
 import MemoList from './components/MemoList';
 import MemoCreate from './components/MemoCreate';
 import { MemoProvider } from './components/MemoContext';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -16,27 +15,27 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+
 function App() {
-  return (
-    <>
-    <DndProvider backend={HTML5Backend}>
-    <MemoProvider>
-        <GlobalStyle />
-        <Router>
-            <FriendList />
-            <Switch>
-                <Route path='/' />
-            </Switch>
-        </Router>
-    
-        <MemoTemplate>
-            <MemoList />
-            <MemoCreate />
-        </MemoTemplate>
-    </MemoProvider>
-    </DndProvider>
-    </>
-  );
+
+    return (
+        <>
+        <MemoProvider>
+            <GlobalStyle />
+            <Router>
+                <FriendList />
+                <Switch>
+                    <Route path='/' />
+                </Switch>
+            </Router>
+        
+            <MemoTemplate>
+                <MemoList />
+                <MemoCreate />
+            </MemoTemplate>
+        </MemoProvider>
+        </>
+    );
 }
 
 export default App;

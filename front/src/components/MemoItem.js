@@ -1,8 +1,7 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import * as MdIcons from 'react-icons/md';
-import { useMemoDispatch } from './MemoContext';
-import { useDrag, useDrop } from 'react-dnd';
+import { useAreaSet, useAreaState } from './MemoContext';
 
 const Remove = styled.div`
     display: flex;
@@ -21,15 +20,14 @@ const Remove = styled.div`
 const MemoItemBlock = styled.div`
 display: block;
 list-style: none;
-z-index: 1;
+z-index: 2;
 float: left;
-margin: 30px;
+margin: 10px;
 padding: 10px 10px 30px 10px;
-width: 180px;
-height: 180px;
+width: 100px;
+height: 100px;
 border: 1px solid #bfbfbf;
 background-color:  LightGoldenRodYellow; 
-z-index: 2;
 color: black;
 text-decoration: none;
 -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
@@ -58,44 +56,28 @@ const Text = styled.div`
 
 
 
-function MemoItem({ id, text, index, setMemos, moveMemoHandler}) {
-    const dispatch = useMemoDispatch();
-    const onRemove = () => dispatch({ type: 'REMOVE', id});
+function MemoItem({ areaId, id, text, index}) {
 
-    const ref = useRef(null);
+    const area = useAreaState();
+    const setArea = useAreaSet();
 
-    const [, drop] = useDrop({accept: "MEMO"});
+    const onRemove = () => {
+        const sourceArea = area[areaId];
+        const sourceItems = [...sourceArea.items];
+        const remove = sourceItems.filter(memo => memo.id !== id);
 
-    const changeMemoArea = (currentItem, areaName, e) => {
-        
+        setArea({
+            ...area,
+            [areaId] : {
+                ...sourceArea,
+                items : remove
+            }
+        })
+
     }
 
-    
-    const [{ isDragging }, drag] = useDrag({
-        type: "MEMO", index,
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-        end: (item, monitor) => {
-            const dropResult = monitor.getDropResult();
-            if(dropResult && dropResult.name === 'Area 1'){
-                console.log(dropResult.type);
-                changeMemoArea(item, 'Area 1');
-            }else {
-                console.log(dropResult.type);
-                changeMemoArea(item, 'Area 2');
-            } 
-            //else if 전송 창에 올려놓으면
-        },
-        
-    })
-
-    const opacity = isDragging ? 0.4 : 1;
-
-    drag(drop(ref));
-
     return (
-        <MemoItemBlock ref={ref} style={{opacity}}>
+        <MemoItemBlock>
         <Text >{text}</Text>
         <Remove onClick={onRemove}>
             <MdIcons.MdDelete />

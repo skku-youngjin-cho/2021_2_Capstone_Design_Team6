@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDrop } from 'react-dnd';
 import styled from 'styled-components';
 
 
@@ -17,14 +16,9 @@ const ColumnBlock = styled.div`
 
 function Column ({children, className, title}){
 
-    const [, drop] = useDrop({
-        accept: 'MEMO',
-        drop: () => ({name: title}),
-        
-    });
-
     return (
-        <ColumnBlock ref={drop} className={className}>
+        
+        <ColumnBlock className={className}>
             {title}
             {children}
         </ColumnBlock>

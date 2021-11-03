@@ -1,76 +1,94 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MemoItem from './MemoItem';
-import { useMemoState, useMemoDispatch } from './MemoContext';
-import { useDrop } from 'react-dnd';
-import Column from './CustumArea';
+import { useAreaState, useUserState, useUserId} from './MemoContext';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const MemoListBlock = styled.div`
-    flex: 1;
-    padding: 20px 32px;
-    padding-bottom: 48px;
-    overflow-y: auto;
+display: flex;
+flex-direction: row;
+justify-content: space-around;
 `;
 
 
 function MemoList() {
-    const memos = useMemoState();
-    const dispatch = useMemoDispatch();
-
 /*
-    const [{canDrop, isOver}, drop] = useDrop({
-        accept: "MEMO",
-        drop: () => ({name: 'some name'}),
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop()
-        })
-    });
+    const userId = useUserId();
+    const userState = useAreaState();
 
-    const moveMemoHandler = (dragIndex, hoverIndex) => {
-        const dragItem = memos[dragIndex];
+    const user = Object.values(userState).filter(user => user.id === userId.current);
 
-        if (dragItem) {
-            dispatch((prevState => {
-                const coppiedStateArray = [...prevState];
-
-                const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
-
-                coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
-
-                return coppiedStateArray;
-            }))
-        }
-    }
-
-    const returnMemosForArea = (areaName) => {
-        return memos
-                .filter((memo) => memo.area === areaName)
-                .map((memo, index) => (
-                    <MemoItem 
-                        key={memo.id}
-                        id={memo.id}
-                        text = {memo.text}
-                        index={index}
-                        setMemos={dispatch}
-                        moveMemoHandler={moveMemoHandler}
-                    /> 
-                ))
-    }
-
-   
-    console.log('option', {canDrop, isOver});
+    const memo = user[0].memolist;
 */
+    const area = useAreaState();
+
     return (
-            <MemoListBlock>
-                {memos.map((memo, index) => (
-                    <MemoItem
-                        key={memo.id}
-                        id={memo.id}
-                        text={memo.text}
-                    />
-                ))}
-            </MemoListBlock>
+        
+        <MemoListBlock>
+            {Object.entries(area).map(([areaId, area], index) => {
+                return(
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center"
+                        }}
+                        key={areaId}
+                    >
+                        <h2>{area.name}</h2>
+                        <div style={{ margin: 8}}>
+                            <Droppable droppableId={areaId} key={areaId}>
+                                {(provided, snapshot) => {
+                                    return (
+                                        <div
+                                            {...provided.droppableProps}
+                                            ref={provided.innerRef}
+                                            style={{
+                                            background: snapshot.isDraggingOver
+                                                ? "lightblue"
+                                                : "lightgrey",
+                                            padding: 4,
+                                            width: 250,
+                                            minHeight: 500
+                                            }}
+                                        >
+                                            {area.items.map((item, index) => {
+                                                return (
+                                                    <Draggable
+                                                        key={item.id}
+                                                        draggableId={item.id}
+                                                        index={index}
+                                                    >
+                                                        {(provided, snapshot) => {
+                                                
+                                                            return(
+                                                                <div
+                                                                    ref={provided.innerRef}
+                                                                    {...provided.draggableProps}
+                                                                    {...provided.dragHandleProps}
+                                                                >
+                                                                <MemoItem
+                                                                    areaId={areaId}
+                                                                    id={item.id}
+                                                                    text={item.text}
+                                                                >
+                                                                </MemoItem>
+                                                                </div>
+                                                            );
+                                                        }}
+                                                    </Draggable>
+                                                );
+                                            })}
+                                            {provided.placeholder}
+                                        </div>
+                                    );
+                                }}
+                            </Droppable>
+                        </div>
+                    </div>
+                );
+            })}
+        </MemoListBlock>
   );
 }
 

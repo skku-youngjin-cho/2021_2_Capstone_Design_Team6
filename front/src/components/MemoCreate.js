@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import * as MdIcons from 'react-icons/md';
-import { useMemoDispatch, useMemoNextId } from './MemoContext';
+import { useMemoNextId, useAreaSet, useUserId, useUserState, useSetUser} from './MemoContext';
+import uuid from "uuid/v4";
 
 const CircleButton = styled.button`
   background: #38d9a9;
@@ -80,20 +81,51 @@ function MemoCreate() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
 
-    const dispatch = useMemoDispatch();
     const nextId = useMemoNextId();
-    
+
+    const setArea = useAreaSet();
+
+    const userId = useUserId();
+    const userState = useUserState();
+
+    const addMemo = () => {
+
+        
+        console.log(userId.current);
+
+        const user = Object.values(userState).filter(user => user.id === userId.current);
+
+        console.log(user);
+
+        console.log(user[0]);
+
+        const memos = user[0].memolist;
+
+        console.log(memos);
+        
+
+        setArea(prev => {
+            return {
+                ...prev,
+                Default: {
+                    name: "Default",
+                    items: [
+                        {
+                            id: uuid(),
+                            text: value
+                        },
+                        ...prev.Default.items
+                    ]
+                }
+            }
+        })
+    }
+
     const onToggle = () => setOpen(!open);
     const onChange = e => setValue(e.target.value);
     const onSubmit = e => {
         e.preventDefault();
-        dispatch({
-            type: 'CREATE',
-            memo: {
-                id: nextId.current,
-                text: value
-            }
-        });
+        addMemo();
         setValue('');
         setOpen(false);
         nextId.current += 1;
