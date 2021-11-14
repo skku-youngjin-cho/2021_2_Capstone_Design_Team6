@@ -1,12 +1,8 @@
 import React from 'react';
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import FriendList from './components/FriendList';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import MemoTemplate from './components/MemoTemplate';
-import MemoList from './components/MemoList';
-import MemoCreate from './components/MemoCreate';
-import { MemoProvider } from './components/MemoContext';
+import MainPage from './pages/MainPage';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -20,20 +16,10 @@ function App() {
 
     return (
         <>
-        <MemoProvider>
             <GlobalStyle />
             <Router>
-                <FriendList />
-                <Switch>
-                    <Route path='/' />
-                </Switch>
+                <Route path="/:id" component={MainPage} />
             </Router>
-        
-            <MemoTemplate>
-                <MemoList />
-                <MemoCreate />
-            </MemoTemplate>
-        </MemoProvider>
         </>
     );
 }

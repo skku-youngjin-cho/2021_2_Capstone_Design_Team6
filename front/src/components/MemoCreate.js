@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import * as MdIcons from 'react-icons/md';
-import { useMemoNextId, useAreaSet, useUserId, useUserState, useSetUser} from './MemoContext';
-import uuid from "uuid/v4";
+import * as usersAPI from '../api/users'; 
 
 const CircleButton = styled.button`
   background: #38d9a9;
@@ -77,48 +76,18 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-function MemoCreate() {
+function MemoCreate(props) {
+
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
 
-    const nextId = useMemoNextId();
-
-    const setArea = useAreaSet();
-
-    const userId = useUserId();
-    const userState = useUserState();
-
     const addMemo = () => {
-
-        
-        console.log(userId.current);
-
-        const user = Object.values(userState).filter(user => user.id === userId.current);
-
-        console.log(user);
-
-        console.log(user[0]);
-
-        const memos = user[0].memolist;
-
-        console.log(memos);
-        
-
-        setArea(prev => {
-            return {
-                ...prev,
-                Default: {
-                    name: "Default",
-                    items: [
-                        {
-                            id: uuid(),
-                            text: value
-                        },
-                        ...prev.Default.items
-                    ]
-                }
-            }
-        })
+        const Data = {
+            user: props.userId, 
+            memo: value
+        }
+        console.log(Data);
+        usersAPI.createMemo(Data);
     }
 
     const onToggle = () => setOpen(!open);
@@ -128,7 +97,6 @@ function MemoCreate() {
         addMemo();
         setValue('');
         setOpen(false);
-        nextId.current += 1;
     }
 
     return (

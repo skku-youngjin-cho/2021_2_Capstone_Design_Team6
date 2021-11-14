@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import * as MdIcons from 'react-icons/md';
-import { useAreaSet, useAreaState } from './MemoContext';
 
 const Remove = styled.div`
     display: flex;
@@ -58,10 +57,10 @@ const Text = styled.div`
 
 function MemoItem({ areaId, id, text, index}) {
 
-    const area = useAreaState();
-    const setArea = useAreaSet();
+    //const area = useAreaState();
+    //const setArea = useAreaSet();
 
-    const onRemove = () => {
+    const onRemove = () => {/*
         const sourceArea = area[areaId];
         const sourceItems = [...sourceArea.items];
         const remove = sourceItems.filter(memo => memo.id !== id);
@@ -73,7 +72,7 @@ function MemoItem({ areaId, id, text, index}) {
                 items : remove
             }
         })
-
+*/
     }
 
     return (

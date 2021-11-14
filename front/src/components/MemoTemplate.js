@@ -1,59 +1,53 @@
-import React from 'react';
-import { useAreaState, useAreaSet } from './MemoContext';
+import React, {useState, useEffect} from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import MemoList from './MemoList';
+import MemoCreate from './MemoCreate';
+import * as usersAPI from '../api/users'; 
 
-
-const onDragEnd = (result, areas, setAreas) => {
+const onDragEnd = (result, userId, areas, setAreas) => {
     if (!result.destination) return;
     const { source, destination } = result;
   
-    if (source.droppableId !== destination.droppableId) {
-      const sourceArea = areas[source.droppableId];
-      const destArea = areas[destination.droppableId];
-      const sourceItems = [...sourceArea.items];
-      const destItems = [...destArea.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setAreas({
-        ...areas,
-        [source.droppableId]: {
-          ...sourceArea,
-          items: sourceItems
-        },
-        [destination.droppableId]: {
-          ...destArea,
-          items: destItems
-        }
-      });
-    } else {
-      const area = areas[source.droppableId];
-      const copiedItems = [...area.items];
-      const [removed] = copiedItems.splice(source.index, 1);
-      copiedItems.splice(destination.index, 0, removed);
-      setAreas({
-        ...areas,
-        [source.droppableId]: {
-          ...areas,
-          items: copiedItems
-        }
-      });
+    if (destination.droppableId === "Droppable") {
+        console.log("send");
+        //전송
     }
   };
 
-function MemoTemplate({children}) {
 
-    const area = useAreaState();
-    const setArea = useAreaSet();
+function MemoTemplate({userId}) {
+
+    const [area, setArea] = useState(null);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setArea(null);
+            const data = await usersAPI.getMemoByUid(userId);
+            const area = {
+                ...data,
+                "Droppable": {
+                }
+            };
+            setArea(area);
+            console.log(area);
+        };
+        fetchUsers();
+    }, []);
+
+    if(!area){
+        return null;
+    }
 
     return (
         <DragDropContext
-            onDragEnd={result => onDragEnd(result, area, setArea)}
+            onDragEnd={result => onDragEnd(result, userId, area, setArea)}
         >
-            {children}
+            <MemoList userId={userId} userMemolist={area}/>
+            <MemoCreate userId={userId} userMemolist={area}/>
 
         </DragDropContext>
             
     )
 }
 
-export default MemoTemplate
+export default React.memo(MemoTemplate)

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import MemoItem from './MemoItem';
-import { useAreaState, useUserState, useUserId} from './MemoContext';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const MemoListBlock = styled.div`
@@ -11,21 +10,15 @@ justify-content: space-around;
 `;
 
 
-function MemoList() {
-/*
-    const userId = useUserId();
-    const userState = useAreaState();
+function MemoList( props ) {
 
-    const user = Object.values(userState).filter(user => user.id === userId.current);
 
-    const memo = user[0].memolist;
-*/
-    const area = useAreaState();
+    const state = props.userMemolist;
 
     return (
         
         <MemoListBlock>
-            {Object.entries(area).map(([areaId, area], index) => {
+            {Object.entries(state).map(([areaId, area], index) => {
                 return(
                     <div
                         style={{
@@ -35,9 +28,9 @@ function MemoList() {
                         }}
                         key={areaId}
                     >
-                        <h2>{area.name}</h2>
+                        <h2>{areaId}</h2>
                         <div style={{ margin: 8}}>
-                            <Droppable droppableId={areaId} key={areaId}>
+                        <Droppable droppableId={areaId} key={areaId}>
                                 {(provided, snapshot) => {
                                     return (
                                         <div
@@ -52,11 +45,11 @@ function MemoList() {
                                             minHeight: 500
                                             }}
                                         >
-                                            {area.items.map((item, index) => {
+                                            {Object.values(area).map((item, index) => {
                                                 return (
                                                     <Draggable
-                                                        key={item.id}
-                                                        draggableId={item.id}
+                                                        key={item._id}
+                                                        draggableId={item._id.toString()}
                                                         index={index}
                                                     >
                                                         {(provided, snapshot) => {
@@ -69,8 +62,8 @@ function MemoList() {
                                                                 >
                                                                 <MemoItem
                                                                     areaId={areaId}
-                                                                    id={item.id}
-                                                                    text={item.text}
+                                                                    id={item._id}
+                                                                    text={item.memo}
                                                                 >
                                                                 </MemoItem>
                                                                 </div>
