@@ -24,7 +24,7 @@ function MemoList( props ) {
                         style={{
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center"
+                            alignItems: "center",
                         }}
                         key={areaId}
                     >
@@ -41,8 +41,8 @@ function MemoList( props ) {
                                                 ? "lightblue"
                                                 : "lightgrey",
                                             padding: 4,
-                                            width: 250,
-                                            minHeight: 500
+                                            display: "flex",
+                                            "flex-direction" : "column"
                                             }}
                                         >
                                             {Object.values(area).map((item, index) => {
