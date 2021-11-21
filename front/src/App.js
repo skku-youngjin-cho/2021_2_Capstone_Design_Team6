@@ -2,7 +2,7 @@ import React from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import MainPage from './pages/MainPage';
+import SignTemplate from './SignPage/SignTemplate';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -18,7 +18,7 @@ function App() {
         <>
             <GlobalStyle />
             <Router>
-                <Route path="/:id" component={MainPage} />
+              <SignTemplate />
             </Router>
         </>
     );

@@ -2,8 +2,7 @@ import React from 'react';
 import Signin from './Signin.js';
 import Signup from './Signup.js';
 import { Route } from 'react-router-dom';
-import Post from './Post';
-import Nav from './Nav';
+import Mainpage from '../pages/MainPage';
 
 const SignTemplate = () => {
     const username = localStorage.getItem('username');
@@ -17,11 +16,9 @@ const SignTemplate = () => {
     }
 
 //개인 홈 화면 사용시 /username, 공통 홈 화면 사용시 path는 홈으로, component는 홈페이지 Template
-    const path = '/' + username;
     return(
         <>
-            <Nav />
-            <Route path = {path} component={Post} />
+            <Route path = "/:username" component={Mainpage} />
         </>
     )
 }

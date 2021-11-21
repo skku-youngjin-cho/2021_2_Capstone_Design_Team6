@@ -11,6 +11,11 @@ function FriendList() {
 
     const showSidebar = () => setSidebar(!sidebar);
     
+    const onLogout = () => {
+      localStorage.setItem('username', '');
+      window.location.href = '/';
+    }
+
     return (
         <>
         <IconContext.Provider value={{ color: '#fff' }}>
@@ -38,6 +43,9 @@ function FriendList() {
             })}
           </ul>
         </nav>
+        <button onClick={onLogout}>
+            Log out
+        </button>
       </IconContext.Provider>
     </>
   );
