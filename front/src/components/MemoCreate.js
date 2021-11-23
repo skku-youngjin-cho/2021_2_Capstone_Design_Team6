@@ -20,7 +20,7 @@ const CircleButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 60px;
-  position: absolute;
+  position: fixed;
   left: 90%;
   bottom: 40px;
   transform: translate(-50%, 50%);
@@ -51,7 +51,7 @@ const InsertFormPositioner = styled.div`
   width: 100%;
   bottom: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
 `;
 
 const InsertForm = styled.form`
