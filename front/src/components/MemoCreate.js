@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import * as MdIcons from 'react-icons/md';
 import { useMemoNextId, useAreaSet, useUserId, useUserState, useSetUser} from './MemoContext';
-import uuid from "uuid/v4";
+import uuid from "uuidv4";
 
 const CircleButton = styled.button`
   background: #38d9a9;

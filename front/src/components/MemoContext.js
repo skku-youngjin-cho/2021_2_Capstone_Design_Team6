@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, useContext, useRef, useState } from 'react';
-import uuid from "uuid/v4";
+import uuid from "uuidv4";
 
 const initialMemos = [
     {
