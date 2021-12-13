@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import MemoItem from './MemoItem';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -12,9 +12,10 @@ justify-content: space-around;
 
 
 function MemoList( props ) {
+    
+    const [state, setState] = useState(props.userMemolist);
 
-
-    const state = props.userMemolist;
+    //const state = props.userMemolist;
 
     return (
         
@@ -31,7 +32,6 @@ function MemoList( props ) {
                         }}
                         key={areaId}
                     >
-                        <h2>{areaId}</h2>
                         <div style={{ margin: 8}}>
                         <Droppable droppableId={areaId} key={areaId}>
                                 {(provided, snapshot) => {
@@ -40,9 +40,9 @@ function MemoList( props ) {
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
                                             style={{
-                                                padding: 4,
-                                                display: "flex",
-                                                width: "auto"
+                                            padding: 4,
+                                            display: "flex",
+                                            width: "auto"
                                             }}
                                         >
                                             {Object.values(area).map((item, index) => {
@@ -59,11 +59,19 @@ function MemoList( props ) {
                                                                     ref={provided.innerRef}
                                                                     {...provided.draggableProps}
                                                                     {...provided.dragHandleProps}
+                                                                    style={{
+                                                                        transitionDuration: `0.001s`
+                                                                    }}
                                                                 >
                                                                 <MemoItem
+                                                                    userId={props.userId}
                                                                     areaId={areaId}
                                                                     id={item._id}
                                                                     text={item.memo}
+                                                                    memoList={state}
+                                                                    setMemoList={setState}
+                                                                    test={props.test}
+                                                                    setTest={props.setTest}
                                                                 >
                                                                 </MemoItem>
                                                                 </div>
@@ -82,7 +90,7 @@ function MemoList( props ) {
                 );
             })}
 
-<Droppable droppableId="Droppable" key="Droppable">
+            <Droppable droppableId="Droppable" key="Droppable">
             {(provided, snapshot) => {
                                     return (
                                         <div

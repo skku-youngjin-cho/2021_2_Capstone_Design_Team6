@@ -19,6 +19,8 @@ function MemoTemplate({userId}) {
 
     const [area, setArea] = useState(null);
 
+    const [test, setTest] = useState(0);
+
     useEffect(() => {
         const fetchUsers = async () => {
             setArea(null);
@@ -32,7 +34,7 @@ function MemoTemplate({userId}) {
             console.log(area);
         };
         fetchUsers();
-    }, []);
+    }, [test]);
 
     if(!area){
         return null;
@@ -42,8 +44,9 @@ function MemoTemplate({userId}) {
         <DragDropContext
             onDragEnd={result => onDragEnd(result, userId, area, setArea)}
         >
-            <MemoList userId={userId} userMemolist={area}/>
-            <MemoCreate userId={userId} userMemolist={area}/>
+            <MemoList userId={userId} userMemolist={area} test={test} setTest={setTest}/>
+
+            <MemoCreate userId={userId} userMemolist={area} test={test} setTest={setTest}/>
 
         </DragDropContext>
             

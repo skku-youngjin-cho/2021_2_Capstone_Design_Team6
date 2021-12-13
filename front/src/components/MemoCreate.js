@@ -97,6 +97,8 @@ function MemoCreate(props) {
         addMemo();
         setValue('');
         setOpen(false);
+        let x = props.test + 1;
+        props.setTest(x);
     }
 
     return (
