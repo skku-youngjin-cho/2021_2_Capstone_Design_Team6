@@ -10,19 +10,18 @@ import SidebarOption from "./SidebarOption";
 import FriendList from './FriendList';
 
 
-const Sidebar = () => {
+const Sidebar = (id) => {
     const username = localStorage.getItem('username');
     const [userList, setUserList] = useState([
         {
-            __id: '',
+            _id: '',
             name: '',
             count: '',
             password: '',
             friends: []
         }
     ]);
-
-    const [friendList, setFriendList] = useState([]);
+    const [friendList, setFriendList] = useState();
 
     const requestOptions = {
         method: 'GET',
@@ -34,27 +33,30 @@ const Sidebar = () => {
     }
 
     useEffect(() => {
-        console.log('useEffect');
         fetch('/userinfo', requestOptions)
             .then(response => response.json())
             .then(json => {
                 setUserList(json.userList);
-                setfriendList();
+                for(let i in json.userList) {
+                    if(json.userList[i].name === username) {
+                        setFriendList(json.userList[i].friends);
+                    }
+                }
             })
-    }, []);
-
-    const setfriendList = () => {
-        for(let i in userList) {
-            if(userList[i].name === username) {
-                setFriendList(userList[i].friends);
-            }
-        }
-        return friendList;
-    }
+    }, [friendList]);
 
     const onLogout = () => {
         localStorage.setItem('username', '');
         window.location.href = '/';
+    }
+
+    const findFriendId = (friend) => {
+        for(let i in userList) {
+            if(userList[i].name === friend) {
+                console.log(userList[i]._id)
+                return userList[i]._id
+            }
+        }
     }
 
     return(
@@ -74,9 +76,10 @@ const Sidebar = () => {
             </SidebarHeader>
 
             <SidebarOption Icon={PeopleAltIcon} title="FriendList" />
-            {friendList.map(list => (
+            {friendList?.map(list => (
                 <SidebarOption
                     title={list}
+                    id={findFriendId(list)}
                 />
             ))
             }
