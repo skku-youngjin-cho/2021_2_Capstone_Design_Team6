@@ -85,8 +85,8 @@ function MemoCreate(props) {
         const Data = {
             user: props.userId, 
             memo: value,
-            x:20,
-            y:20,
+            x:50,
+            y:100,
             width:150,
             height:150
         }
