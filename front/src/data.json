@@ -1,0 +1,56 @@
+[
+    {
+      "id": 1,
+      "name": "user1",
+      "memolist": {
+        "Default": {
+            "name" : "Default",
+            "items" : [
+                {
+                "id": "1",
+                "text": "메모1"
+                },
+                {
+                "id": "2",
+                "text": "메모2"
+                },
+                {
+                "id": "3",
+                "text": "메모3"
+                }
+            ]
+        },
+        "Droppable": {
+            "name" : "Droppable",
+            "items" : []
+        }
+      }
+    },
+    {
+        "id": 2,
+        "name": "user2",
+        "memolist": {
+          "Default": {
+              "name" : "Default",
+              "items" : [
+                  {
+                  "id": "1",
+                  "text": "2-1"
+                  },
+                  {
+                  "id": "2",
+                  "text": "2-2"
+                  },
+                  {
+                  "id": "3",
+                  "text": "2-3"
+                  }
+              ]
+          },
+          "Droppable": {
+              "name" : "Droppable",
+              "items" : []
+          }
+        }
+    }
+]
