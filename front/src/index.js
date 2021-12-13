@@ -4,9 +4,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import appSlice from "./components/appSlice";
+import appReducer from "./components/appSlice";
+import { configureStore } from '@reduxjs/toolkit';
 
-const store = createStore(appSlice)
+const store = configureStore({
+  reducer: {
+      app: appReducer,
+  },
+});
 
 ReactDOM.render(
   <Provider store={store}>

@@ -2,16 +2,77 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { enterRoom } from "./appSlice";
+import swal from 'sweetalert';
 
-const SidebarOption = ({Icon, title, addFriendOption, id}) => {
+const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) => {
     const dispatch = useDispatch();
+    const username = localStorage.getItem('username');
 
     const addFriend = () => {
-        const friendName = prompt("Please enter your friend name");
+        const friendName = prompt("Please enter your friend name to add");
 
-        if (friendName) {
-            console.log(friendName);
+        const data = {
+            from: username,
+            to: friendName
         }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }
+
+        fetch('/addFriend', requestOptions)
+        .then(response => response.json())
+        .then(json => {
+            swal("Success", json['msg'], "success", {
+                buttons: false,
+                timer: 2000,
+            })
+        })
+        .catch(error => {
+            swal("Failed", error['msg'], "error");
+        })
+        setTimeout(function(){
+            window.location.replace(`/${username}`);
+        }, 2000)
+    }
+
+    const deleteFriend = () => {
+        const friendName = prompt("Please enter your friend name to delete");
+
+        const data = {
+            from: username,
+            to: friendName
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }
+
+        fetch('/deleteFriend', requestOptions)
+        .then(response => response.json())
+        .then(json => {
+            swal("Success", json['msg'], "success", {
+                buttons: false,
+                timer: 2000,
+            })
+        })
+        .catch(error => {
+            swal("Failed", error['msg'], "error");
+        })
+
+        setTimeout(function(){
+            window.location.replace(`/${username}`);
+        }, 2000)
     }
 
     const selectFriend = () => {
@@ -24,14 +85,18 @@ const SidebarOption = ({Icon, title, addFriendOption, id}) => {
          }
     }
 
+    const openChat = () => {
+        
+    }
+
     return(
         <SidebarOptionContainer
-            onClick={addFriendOption ? addFriend : selectFriend}>
+            onClick={addFriendOption ? addFriend : (deleteFriendOption ? deleteFriend : selectFriend)}>
             {Icon && <Icon fontSize='small' style={{padding: 10}} />}
             {Icon ? (
                 <h3>{title}</h3>
             ): (
-                <SidebarOptionChannel >
+                <SidebarOptionChannel onClick={openChat} >
                     <span>#</span> {title}
                 </SidebarOptionChannel>
             )}
@@ -52,11 +117,9 @@ const SidebarOptionContainer = styled.div`
         opacity: 0.9;
         background-color: #06C2FB;
     }
-
     > h3 {
         font-weight: 500;
     }
-
     > h3 > span {
         padding: 15px;
     }

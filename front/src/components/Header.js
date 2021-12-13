@@ -48,7 +48,6 @@ const HeaderLeft = styled.div`
     display: flex;
     align-items: center;
     margin-left: 20px;
-
     > .MuiSvgIcon-root {
         margin-left: auto;
         margin-right: 30px;
@@ -57,7 +56,6 @@ const HeaderLeft = styled.div`
 
 const HeaderAvatar = styled(Avatar)`
     cursor: pointer;
-
     :hover {
         opacity: 0.8;
     }
@@ -73,7 +71,6 @@ const HeaderCenter = styled.div`
     padding: 0 50px;
     color: gray;
     border: 1px gray solid;
-
     > input {
         background-color: transparent;
         border: none;

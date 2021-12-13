@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SidebarOption from "./SidebarOption";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import CreateIcon from "@material-ui/icons/Create";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import AddIcon from "@material-ui/icons/Add";
+import GroupRemove from "@material-ui/icons/Group"
+
+import SidebarOption from "./SidebarOption";
+import FriendList from './FriendList';
 
 
 const Sidebar = () => {
+    const username = localStorage.getItem('username');
     const [userList, setUserList] = useState([
         {
             __id: '',
             name: '',
             count: '',
-            password: ''
+            password: '',
+            friends: []
         }
     ]);
+
+    const [friendList, setFriendList] = useState([]);
+
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -24,17 +32,31 @@ const Sidebar = () => {
             'Content-Type': 'application/json',
         }
     }
-    fetch('/userinfo', requestOptions)
-    .then(response => response.json())
-    .then(json => {
-        setUserList(json.userList);
-    })
+
+    useEffect(() => {
+        console.log('useEffect');
+        fetch('/userinfo', requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                setUserList(json.userList);
+                setfriendList();
+            })
+    }, []);
+
+    const setfriendList = () => {
+        for(let i in userList) {
+            if(userList[i].name === username) {
+                setFriendList(userList[i].friends);
+            }
+        }
+        return friendList;
+    }
 
     const onLogout = () => {
         localStorage.setItem('username', '');
         window.location.href = '/';
-      }
-    
+    }
+
     return(
         <SidebarContainer>
             <button onClick={onLogout}>
@@ -52,17 +74,14 @@ const Sidebar = () => {
             </SidebarHeader>
 
             <SidebarOption Icon={PeopleAltIcon} title="FriendList" />
-            {userList.map(list => (
+            {friendList.map(list => (
                 <SidebarOption
-                    id={list.__id}
-                    pwd={list.password}
-                    title={list.name}
-                    count={list.count}
-                    openChatOption
+                    title={list}
                 />
             ))
             }
             <SidebarOption Icon={AddIcon} addFriendOption title="Add Friend" />
+            <SidebarOption Icon={AddIcon} addFriendOption={false} deleteFriendOption title="Remove Friend" />
             <hr />
 
 
@@ -79,7 +98,6 @@ const SidebarContainer = styled.div`
     border-top: 1px solid black;
     max-width: 260px;
     margin-top: 60px;
-
     > hr {
         margin-top: 10px;
         margin-bottom: 10px;
@@ -104,7 +122,6 @@ const SidebarHeader = styled.div`
 const SidebarInfo = styled.div`
     flex: 0.9;
     padding: 0 10px;
-
     > h2 {
         font-size: 15px;
         font-weight: 900;
@@ -116,7 +133,6 @@ const SidebarInfo = styled.div`
         font-weight: 400;
         align-items: center;
     }
-
     > h3 > .MuiSvgIcon-root {
         font-size: 14px;
         margin-top: 1px;

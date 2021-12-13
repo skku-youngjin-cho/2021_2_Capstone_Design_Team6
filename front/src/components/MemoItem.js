@@ -77,10 +77,10 @@ function MemoItem(props) {
     const [isDragging, setIsDragging] = useState(false);
 
     const [position, setPosition] = useState({
-        x: 20,
-        y: 20,
-        width: 150,
-        height: 150,
+        x: props.x,
+        y: props.y,
+        width: props.width,
+        height: props.height
     });
 
 
@@ -94,6 +94,17 @@ function MemoItem(props) {
         }));
         console.log(width, height);
         console.log(position);
+
+        const Data = {
+            user: props.userId, 
+            id: props.id,
+            memo: props.text,
+            x:position.x,
+            y:position.y,
+            width:width,
+            height:height
+        };
+        usersAPI.moveMemo(Data);
     };
     
     const onDragStop = (e, d) =>{
@@ -103,8 +114,20 @@ function MemoItem(props) {
         x,
         y
         }));
+        
         console.log(x, y);
         console.log(position);
+
+        const Data = {
+            user: props.userId, 
+            id: props.id,
+            memo: props.text,
+            x:x,
+            y:y,
+            width:position.width,
+            height:position.height
+        };
+        usersAPI.moveMemo(Data);
     }
 
 
@@ -132,7 +155,7 @@ function MemoItem(props) {
             user: props.userId, 
             id: props.id,
             memo: newText
-        }
+        };
         console.log(Data);
         usersAPI.editMemo(Data);
     };
@@ -168,10 +191,10 @@ function MemoItem(props) {
         <Rnd
             style={MemoItemBlock}
             default={{
-                x: 20,
-                y: 20,
-                width: 150,
-                height: 150,
+                x: props.x,
+                y: props.y,
+                width: props.width,
+                height: props.height
             }}
             onResize={onResize}
             onDragStop={onDragStop}

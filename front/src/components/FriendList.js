@@ -1,54 +1,23 @@
-import React, {useState} from 'react';
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import { Link } from 'react-router-dom';
-import { FriendListItem } from './FriendListItem';
-import "./Sidebar.css";
-import { IconContext } from 'react-icons';
+import React from 'react'
+import styled from 'styled-components';
 
-function FriendList() {
-    const [sidebar, setSidebar] = useState(false);
+import SidebarOption from './SidebarOption';
 
-    const showSidebar = () => setSidebar(!sidebar);
-    
-    const onLogout = () => {
-      localStorage.setItem('username', '');
-      window.location.href = '/';
-    }
+const FriendList = (friendList) => {
 
-    return (
-        <>
-        <IconContext.Provider value={{ color: '#fff' }}>
-        <div className='navbar'>
-          <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
-        </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-          <ul className='nav-menu-items' onClick={showSidebar}>
-            <li className='navbar-toggle'>
-              <Link to='#' className='menu-bars'>
-                <AiIcons.AiOutlineClose />
-              </Link>
-            </li>
-            {FriendListItem.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-        <button onClick={onLogout}>
-            Log out
-        </button>
-      </IconContext.Provider>
-    </>
-  );
+
+    return(
+        <FriendListContainer>
+            {friendList.map(list => (
+                <SidebarOption
+                    title={list}
+                />
+            ))
+            }
+        </FriendListContainer>
+    )
 }
 
-export default FriendList
+export default FriendList;
+
+const FriendListContainer = styled.div``;

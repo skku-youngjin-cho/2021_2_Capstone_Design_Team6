@@ -72,6 +72,10 @@ function MemoList( props ) {
                                                                     setMemoList={setState}
                                                                     test={props.test}
                                                                     setTest={props.setTest}
+                                                                    x={item.x}
+                                                                    y={item.y}
+                                                                    width={item.width}
+                                                                    height={item.height}
                                                                 >
                                                                 </MemoItem>
                                                                 </div>

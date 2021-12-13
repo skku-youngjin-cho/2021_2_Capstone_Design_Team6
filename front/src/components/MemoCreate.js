@@ -84,7 +84,11 @@ function MemoCreate(props) {
     const addMemo = () => {
         const Data = {
             user: props.userId, 
-            memo: value
+            memo: value,
+            x:20,
+            y:20,
+            width:150,
+            height:150
         }
         console.log(Data);
         usersAPI.createMemo(Data);

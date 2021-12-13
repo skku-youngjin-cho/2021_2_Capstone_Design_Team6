@@ -63,3 +63,23 @@ export const deletetMemo = async Data => {
     const data = await response.json();
 
 };
+
+export const moveMemo = Data => {
+    const raw = JSON.stringify(Data);
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+        },
+        body: raw
+    };
+
+    fetch(`/move`, requestOptions)
+        .then(response => response.json())
+        .catch(error => {
+            console.log("error");
+        });
+};

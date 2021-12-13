@@ -4,20 +4,24 @@ import MemoTemplate from '../components/MemoTemplate';
 import FriendList from '../components/FriendList';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import Chat from '../components/Chat';
 
 function MainPage({ match }) {
-    const { id } = match.params;
+    const id = 'user1';
 
+    // Sidebar 밑에 <MemoTemplate userId = {id} />
     return (
         <div>
             <MainBody>
                 <Header />
                 <Sidebar />
-                <MemoTemplate userId = {id} />
+                <MemoTemplate userId={id} />
+                <Chat />
             </MainBody>
         </div>
     );
 }
+
 
 export default MainPage;
 
