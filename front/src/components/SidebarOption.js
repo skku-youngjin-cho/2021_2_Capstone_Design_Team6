@@ -28,13 +28,15 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
         fetch('/addFriend', requestOptions)
         .then(response => response.json())
         .then(json => {
-            swal("Success", json['msg'], "success", {
-                buttons: false,
-                timer: 2000,
-            })
-        })
-        .catch(error => {
-            swal("Failed", error['msg'], "error");
+            if(json['msg'] === 'added') {
+                swal("Success", json['msg'], "success", {
+                    buttons: false,
+                    timer: 2000,
+                })
+            }
+            else {
+                swal("Failed", json['msg'], "error");
+            }
         })
         setTimeout(function(){
             window.location.replace(`/${username}`);
@@ -61,15 +63,16 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
         fetch('/deleteFriend', requestOptions)
         .then(response => response.json())
         .then(json => {
-            swal("Success", json['msg'], "success", {
-                buttons: false,
-                timer: 2000,
-            })
+            if(json['msg'] === 'deleted') {
+                swal("Success", json['msg'], "success", {
+                    buttons: false,
+                    timer: 2000,
+                })
+            }
+            else {
+                swal("Failed", json['msg'], "error");
+            }
         })
-        .catch(error => {
-            swal("Failed", error['msg'], "error");
-        })
-
         setTimeout(function(){
             window.location.replace(`/${username}`);
         }, 2000)
@@ -82,8 +85,11 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
                     roomId: id,
                 })
             );
-            console.log(id)
          }
+    }
+
+    const openChat = () => {
+        
     }
 
     return(
@@ -93,7 +99,7 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
             {Icon ? (
                 <h3>{title}</h3>
             ): (
-                <SidebarOptionChannel >
+                <SidebarOptionChannel onClick={openChat} >
                     <span>#</span> {title}
                 </SidebarOptionChannel>
             )}
