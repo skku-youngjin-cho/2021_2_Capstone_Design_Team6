@@ -12,6 +12,7 @@ import FriendList from './FriendList';
 
 const Sidebar = (id) => {
     const username = localStorage.getItem('username');
+    const [teamName, setTeamName] = useState("Team Name");
     const [userList, setUserList] = useState([
         {
             _id: '',
@@ -36,14 +37,23 @@ const Sidebar = (id) => {
         fetch('/userinfo', requestOptions)
             .then(response => response.json())
             .then(json => {
-                setUserList(json.userList);
+                setUserList(json.userList)
                 for(let i in json.userList) {
                     if(json.userList[i].name === username) {
                         setFriendList(json.userList[i].friends);
                     }
-                }
+                };
             })
-    }, [friendList]);
+    }, []);
+
+    useEffect(() => {
+        for(let i in userList) {
+            if(userList[i].name === username) {
+                console.log('useeffect2');
+                setFriendList(userList[i].friends);
+            }
+        }
+    }, [friendList])
 
     const onLogout = () => {
         localStorage.setItem('username', '');
@@ -53,10 +63,13 @@ const Sidebar = (id) => {
     const findFriendId = (friend) => {
         for(let i in userList) {
             if(userList[i].name === friend) {
-                console.log(userList[i]._id)
                 return userList[i]._id
             }
         }
+    }
+
+    const changeUserName = () => {
+        console.log('click')
     }
 
     return(
@@ -66,27 +79,26 @@ const Sidebar = (id) => {
             </button>
             <SidebarHeader>
                 <SidebarInfo>
-                    <h2>Team1</h2>
+                    <h2 value={teamName} > {teamName} </h2>
                     <h3>
-                        <FiberManualRecordIcon />
-                        User1
+                        <FiberManualRecordIcon/>
+                        {username}
                     </h3>
                 </SidebarInfo>
-                <CreateIcon />
+                <CreateIcon onClick={changeUserName} />
             </SidebarHeader>
 
             <SidebarOption Icon={PeopleAltIcon} title="FriendList" />
             {friendList?.map(list => (
                 <SidebarOption
                     title={list}
-                    id={findFriendId(list)}
+                    id={list}
                 />
             ))
             }
             <SidebarOption Icon={AddIcon} addFriendOption title="Add Friend" />
             <SidebarOption Icon={AddIcon} addFriendOption={false} deleteFriendOption title="Remove Friend" />
             <hr />
-
 
         </SidebarContainer>
     );
