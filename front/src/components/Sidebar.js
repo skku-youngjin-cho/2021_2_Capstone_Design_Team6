@@ -53,6 +53,10 @@ const Sidebar = (id) => {
     const findFriendId = (friend) => {
         for(let i in userList) {
             if(userList[i].name === friend) {
+<<<<<<< HEAD
+=======
+                console.log(userList[i]._id)
+>>>>>>> f54eab2803d4b0d187d3a54f8974c4e878498c4c
                 return userList[i]._id
             }
         }

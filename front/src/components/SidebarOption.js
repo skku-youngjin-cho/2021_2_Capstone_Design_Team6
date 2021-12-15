@@ -82,11 +82,8 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
                     roomId: id,
                 })
             );
+            console.log(id)
          }
-    }
-
-    const openChat = () => {
-        
     }
 
     return(
@@ -96,7 +93,7 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
             {Icon ? (
                 <h3>{title}</h3>
             ): (
-                <SidebarOptionChannel onClick={openChat} >
+                <SidebarOptionChannel >
                     <span>#</span> {title}
                 </SidebarOptionChannel>
             )}
