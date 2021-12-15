@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
+import styled from 'styled-components';
 import MemoList from './MemoList';
 import MemoCreate from './MemoCreate';
 import * as usersAPI from '../api/users'; 
@@ -17,7 +17,10 @@ const onDragEnd = (result, userId, areas, setAreas) => {
 
 
 function MemoTemplate({userId}) {
+
     const [area, setArea] = useState(null);
+
+    const [test, setTest] = useState(0);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -32,7 +35,7 @@ function MemoTemplate({userId}) {
             console.log(area);
         };
         fetchUsers();
-    }, []);
+    }, [test]);
 
     if(!area){
         return null;
@@ -41,9 +44,12 @@ function MemoTemplate({userId}) {
     return (
         <MemoContainer>
             <DragDropContext
-                onDragEnd={result => onDragEnd(result, userId, area, setArea)} >
-                <MemoList userId={userId} userMemolist={area}/>
-                <MemoCreate userId={userId} userMemolist={area}/>
+                onDragEnd={result => onDragEnd(result, userId, area, setArea)}
+            >
+                <MemoList userId={userId} userMemolist={area} test={test} setTest={setTest}/>
+
+                <MemoCreate userId={userId} userMemolist={area} test={test} setTest={setTest}/>
+
             </DragDropContext>
         </MemoContainer>
             

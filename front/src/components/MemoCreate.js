@@ -20,7 +20,7 @@ const CircleButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 60px;
-  position: absolute;
+  position: fixed;
   left: 90%;
   bottom: 40px;
   transform: translate(-50%, 50%);
@@ -51,7 +51,7 @@ const InsertFormPositioner = styled.div`
   width: 100%;
   bottom: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
 `;
 
 const InsertForm = styled.form`
@@ -84,7 +84,11 @@ function MemoCreate(props) {
     const addMemo = () => {
         const Data = {
             user: props.userId, 
-            memo: value
+            memo: value,
+            x:50,
+            y:100,
+            width:150,
+            height:150
         }
         console.log(Data);
         usersAPI.createMemo(Data);
@@ -97,6 +101,8 @@ function MemoCreate(props) {
         addMemo();
         setValue('');
         setOpen(false);
+        let x = props.test + 1;
+        props.setTest(x);
     }
 
     return (
