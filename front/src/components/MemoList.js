@@ -11,6 +11,7 @@ justify-content: space-around;
 `;
 
 
+
 function MemoList( props ) {
     
     const [state, setState] = useState(props.userMemolist);
@@ -93,44 +94,6 @@ function MemoList( props ) {
                     </div>
                 );
             })}
-
-            <Droppable droppableId="Droppable" key="Droppable">
-            {(provided, snapshot) => {
-                                    return (
-                                        <div
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                            style={{
-                                                background: "#5483b1",
-                                                zIndex: 5,
-                                                width: snapshot.isDraggingOver
-                                                    ? 80
-                                                    : 30,
-                                                height: snapshot.isDraggingOver
-                                                    ? 80
-                                                    : 30,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                fontSize: 15,
-                                                position: "fixed",
-                                                left: "80%",
-                                                bottom: 40,
-                                                transform: "translate(-50%, 50%)",
-                                                color: "white",
-                                                borderRadius: "50%",
-                                                border: "none",
-                                                outline: "none",
-                                                transition: "0.125s all ease-in"
-                                            }}
-                                        >
-                                            <RiIcons.RiMailSendFill />
-                                            {provided.placeholder}
-                                        </div>
-                                        
-                                    );
-                }}
-            </Droppable>
         </MemoListBlock>
   );
 }

@@ -48,6 +48,12 @@ const Chat = () => {
         }
     }
 
+    if(!roomId) {
+        return (
+            <div>
+            </div>
+        )
+    }
 
 
     return (

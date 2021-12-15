@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import MemoTemplate from '../components/MemoTemplate';
 import FriendList from '../components/FriendList';
@@ -7,7 +7,7 @@ import Sidebar from '../components/Sidebar';
 import Chat from '../components/Chat';
 
 function MainPage({ match }) {
-    const id = 'user1';
+    const username = localStorage.getItem('username');
 
     // Sidebar 밑에 <MemoTemplate userId = {id} />
     return (
@@ -15,13 +15,12 @@ function MainPage({ match }) {
             <MainBody>
                 <Header />
                 <Sidebar />
-                <MemoTemplate userId={id} />
+                <MemoTemplate userId={username} />
                 <Chat />
             </MainBody>
         </div>
     );
 }
-
 
 export default MainPage;
 

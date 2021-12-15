@@ -8,6 +8,7 @@ import * as usersAPI from '../api/users';
 import { Rnd } from 'react-rnd';
 import ImageUploading from 'react-images-uploading';
 
+
 const Remove = styled.div`
     position:absolute;
     bottom: 0;
@@ -83,7 +84,6 @@ function MemoItem(props) {
         height: props.height
     });
 
-
     const onResize = (event, direction, ref, delta) =>{
         const { width, height } = ref.style;
     
@@ -92,8 +92,8 @@ function MemoItem(props) {
         width,
         height
         }));
-        console.log(width, height);
-        console.log(position);
+        //console.log(width, height);
+        //console.log(position);
 
         const Data = {
             user: props.userId, 
@@ -108,28 +108,37 @@ function MemoItem(props) {
     };
     
     const onDragStop = (e, d) =>{
-        const { x, y } = d;
-        setPosition(prevPosition => ({
-        ...prevPosition,
-        x,
-        y
-        }));
-        
-        console.log(x, y);
-        console.log(position);
+        const target = localStorage.getItem('target');
+        if(target === "NULL"){
+            const { x, y } = d;
+            setPosition(prevPosition => ({
+            ...prevPosition,
+            x,
+            y
+            }));
+            
+            console.log(x, y);
+            console.log(position);
 
-        const Data = {
-            user: props.userId, 
-            id: props.id,
-            memo: props.text,
-            x:x,
-            y:y,
-            width:position.width,
-            height:position.height
-        };
-        usersAPI.moveMemo(Data);
+            const Data = {
+                user: props.userId, 
+                id: props.id,
+                memo: props.text,
+                x:x,
+                y:y,
+                width:position.width,
+                height:position.height
+            };
+            usersAPI.moveMemo(Data);
+        }
+        else{
+            //console.log("send!");
+            //console.log(target);
+            send();
+            let x = props.test + 1;
+            props.setTest(x);
+        }
     }
-
 
 
     const [edited, setEdited] = useState(false);
@@ -175,7 +184,24 @@ function MemoItem(props) {
         console.log(props);
         console.log(Data);
         
-        usersAPI.deletetMemo(Data);
+        usersAPI.deleteMemo(Data);
+        let x = props.test + 1;
+        props.setTest(x);
+    }
+
+    const send = () => {
+        const target = localStorage.getItem('target');
+        const Data = {
+            from: props.userId,
+            to: target,
+            id: props.id,
+            x: 50,
+            y: 100,
+            width:position.width,
+            height:position.height
+        }
+        console.log(Data);
+        usersAPI.sendMemo(Data);
         let x = props.test + 1;
         props.setTest(x);
     }

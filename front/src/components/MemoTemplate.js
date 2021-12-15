@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
+import styled from 'styled-components';
 import { DragDropContext } from 'react-beautiful-dnd';
 import MemoList from './MemoList';
 import MemoCreate from './MemoCreate';
 import * as usersAPI from '../api/users'; 
+
 
 const onDragEnd = (result, userId, areas, setAreas) => {
     if (!result.destination) return;
@@ -15,7 +17,7 @@ const onDragEnd = (result, userId, areas, setAreas) => {
   };
 
 
-function MemoTemplate({userId}) {
+function MemoTemplate(props) {
 
     const [area, setArea] = useState(null);
 
@@ -24,7 +26,7 @@ function MemoTemplate({userId}) {
     useEffect(() => {
         const fetchUsers = async () => {
             setArea(null);
-            const data = await usersAPI.getMemoByUid(userId);
+            const data = await usersAPI.getMemoByUid(props.userId);
             const area = {
                 ...data,
                 "Droppable": {
@@ -42,11 +44,11 @@ function MemoTemplate({userId}) {
 
     return (
         <DragDropContext
-            onDragEnd={result => onDragEnd(result, userId, area, setArea)}
+            onDragEnd={result => onDragEnd(result, props.userId, area, setArea)}
         >
-            <MemoList userId={userId} userMemolist={area} test={test} setTest={setTest}/>
+            <MemoList userId={props.userId} userMemolist={area} test={test} setTest={setTest} />
 
-            <MemoCreate userId={userId} userMemolist={area} test={test} setTest={setTest}/>
+            <MemoCreate userId={props.userId} userMemolist={area} test={test} setTest={setTest}/>
 
         </DragDropContext>
             

@@ -85,18 +85,32 @@ const SidebarOption = ({Icon, title, addFriendOption, deleteFriendOption, id}) =
          }
     }
 
-    const openChat = () => {
+    const onMouseMove = () => {
+        const target = localStorage.getItem('target');
+        if(target === "NULL"){
+            localStorage.setItem('target', title)
+            //console.log("in & save")
+        }
         
     }
 
+    const onMouseOut = () => {
+        //console.log("out")
+        localStorage.setItem('target', "NULL")
+    }
+
+
     return(
         <SidebarOptionContainer
-            onClick={addFriendOption ? addFriend : (deleteFriendOption ? deleteFriend : selectFriend)}>
+            onClick={addFriendOption ? addFriend : (deleteFriendOption ? deleteFriend : selectFriend)}
+            onMouseMove={onMouseMove}
+            onMouseOut={onMouseOut}
+        >
             {Icon && <Icon fontSize='small' style={{padding: 10}} />}
             {Icon ? (
                 <h3>{title}</h3>
             ): (
-                <SidebarOptionChannel onClick={openChat} >
+                <SidebarOptionChannel >
                     <span>#</span> {title}
                 </SidebarOptionChannel>
             )}

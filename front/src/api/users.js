@@ -46,7 +46,7 @@ export const editMemo = Data => {
         });
 };
 
-export const deletetMemo = async Data => {
+export const deleteMemo = async Data => {
     const raw = JSON.stringify(Data);
 
     const requestOptions = {
@@ -62,6 +62,23 @@ export const deletetMemo = async Data => {
     const response = await fetch(`/delete`, requestOptions);
     const data = await response.json();
 
+};
+
+export const sendMemo = async Data => {
+    const raw = JSON.stringify(Data);
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+        },
+        body: raw
+    };
+
+    const response = await fetch(`/send`, requestOptions);
+    const data = await response.json();
 };
 
 export const moveMemo = Data => {
