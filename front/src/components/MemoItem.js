@@ -224,8 +224,8 @@ function MemoItem(props) {
             }}
             onResize={onResize}
             onDragStop={onDragStop}
-            minWidth={150}
-            minHeight={150}
+            minWidth="150px"
+            minHeight="150px"
             bounds="window"
         >
             

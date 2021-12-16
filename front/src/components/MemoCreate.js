@@ -87,8 +87,8 @@ function MemoCreate(props) {
             memo: value,
             x:50,
             y:100,
-            width:150,
-            height:150
+            width:"150px",
+            height:"150px"
         }
         console.log(Data);
         usersAPI.createMemo(Data);
